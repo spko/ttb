@@ -95,6 +95,7 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
         public void Dispose()
         {
             _serialPort.Close();
+            _serialPort.Dispose();
         }
     }
 }
