@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Helpers\EncodingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WPF\Converters\EqualityToBooleanConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
