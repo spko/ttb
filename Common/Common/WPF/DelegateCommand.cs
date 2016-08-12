@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Spo.ToolsTestsBenchmarks.Common.Common.WPF
 {
-    public class DelegateCommand<T> : ICommand where T : class
+    public class DelegateCommand<T> : ICommand
     {
         #region Private Fields
 
@@ -29,6 +29,21 @@ namespace Spo.ToolsTestsBenchmarks.Common.Common.WPF
             this.executeDelegate = execute;
         }
 
+        public DelegateCommand(Func<bool> canExecute, Action execute)
+        {
+            if (canExecute == null)
+            {
+                throw new ArgumentNullException(nameof(canExecute));
+            }
+            if (execute == null)
+            {
+                throw new ArgumentNullException(nameof(execute));
+            }
+
+            this.canExecuteDelegate = s => canExecute();
+            this.executeDelegate = s => execute();
+        }
+
         #endregion
 
         public event EventHandler CanExecuteChanged
@@ -46,9 +61,18 @@ namespace Spo.ToolsTestsBenchmarks.Common.Common.WPF
         /// <returns><c>True</c> of <c>False</c> indicating if the command can be executed or not</returns>
         public bool CanExecute(object parameter)
         {
-            T concreteParam = parameter as T;
+            if (parameter is T)
+            {
+                T concreteParam = (T)parameter;
 
-            return this.canExecuteDelegate(concreteParam);
+                return this.canExecuteDelegate(concreteParam);
+            }
+            else if (parameter == null)
+            {
+                return this.canExecuteDelegate(default(T));
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -57,9 +81,16 @@ namespace Spo.ToolsTestsBenchmarks.Common.Common.WPF
         /// <param name="parameter">Command input parameter</param>
         public void Execute(object parameter)
         {
-            T concreteParam = parameter as T;
+            if (parameter is T)
+            {
+                T concreteParam = (T)parameter;
 
-            this.executeDelegate(concreteParam);
+                this.executeDelegate(concreteParam);
+            }
+            else if (parameter == null)
+            {
+                this.executeDelegate(default(T));
+            }
         }
 
         #endregion
