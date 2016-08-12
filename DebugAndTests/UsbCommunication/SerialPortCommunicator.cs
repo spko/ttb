@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.IO.Ports;
 using System.Text;
 using Spo.ToolsTestsBenchmarks.Common.Common.Helpers;
@@ -8,6 +9,7 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
     public class SerialPortCommunicator : IDisposable
     {
         private const int MaxComBaudRate = 128000;
+        private const int DefaultBaudRate = 9600;
         private static readonly object Locker = new object();
         private static SerialPort _serialPort;
         private static SerialPortCommunicator _serialPortCommunicator;
@@ -23,7 +25,7 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
             _serialPort.Open();
         }
 
-        public static SerialPortCommunicator OpenConnection(string portName, int baudRate)
+        public static SerialPortCommunicator OpenConnection(string portName, int baudRate = DefaultBaudRate)
         {
             if (string.IsNullOrWhiteSpace(portName))
             {
@@ -38,7 +40,14 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
             {
                 if (_serialPortCommunicator == null)
                 {
-                    _serialPortCommunicator = new SerialPortCommunicator(portName, baudRate);
+                    try
+                    {
+                        _serialPortCommunicator = new SerialPortCommunicator(portName, baudRate);
+                    }
+                    catch (IOException e)
+                    {
+                        _serialPortCommunicator = null;
+                    }
                 }
 
                 return _serialPortCommunicator;
@@ -50,6 +59,11 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
             if (string.IsNullOrWhiteSpace(messageToWrite))
             {
                 throw new ArgumentNullException(nameof(messageToWrite));
+            }
+
+            if (_serialPort == null)
+            {
+                return;
             }
 
             byte[] binaryMessage = EncodingHelper.ToBytes(messageToWrite);
@@ -70,32 +84,33 @@ namespace Spo.ToolsTestsBenchmarks.DebugAndTests.SerialPortCommunication
 
         public string Read()
         {
-            if (_serialPort.BytesToRead > 0)
+            if (!(_serialPort?.BytesToRead > 0))
             {
-                string receivedMessage = string.Empty;
-                try
-                {
-                    byte[] input = new byte[_serialPort.ReadBufferSize];
-                    int readenLength = _serialPort.Read(input, 0, input.Length);
-                    string asciiValue = EncodingHelper.BytesToAscii(input, readenLength);
-
-                    receivedMessage = asciiValue.Replace("\r", Environment.NewLine);
-                }
-                catch (TimeoutException)
-                {
-                    receivedMessage = string.Empty;
-                }
-
-                return receivedMessage;
+                return null;
             }
 
-            return null;
+            string receivedMessage = string.Empty;
+            try
+            {
+                byte[] input = new byte[_serialPort.ReadBufferSize];
+                int readenLength = _serialPort.Read(input, 0, input.Length);
+                string asciiValue = EncodingHelper.BytesToAscii(input, readenLength);
+
+                receivedMessage = asciiValue.Replace("\r", Environment.NewLine);
+            }
+            catch (TimeoutException)
+            {
+                receivedMessage = string.Empty;
+            }
+
+            return receivedMessage;
         }
 
         public void Dispose()
         {
             _serialPort.Close();
             _serialPort.Dispose();
+            _serialPortCommunicator = null;
         }
     }
 }
