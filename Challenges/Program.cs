@@ -20,7 +20,8 @@ namespace Challenges
                                         { 2, HourGlass2DArrays.Run },
                                         { 3, DynamicArray.Run },
                                         { 4, LeftRotation.Run },
-                                        { 5, RightRotation.Run }
+                                        { 5, RightRotation.Run },
+                                        { 6, SparseArrays.Run }
                                     };
         }
 
