@@ -46,6 +46,8 @@
     <Compile Include="Challenges\DynamicArray.cs" />
     <Compile Include="Challenges\HourGlass2DArrays.cs" />
     <Compile Include="Challenges\LeaderBoard.cs" />
+    <Compile Include="Challenges\LeftRotation.cs" />
+    <Compile Include="Challenges\RightRotation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
