@@ -14,16 +14,19 @@ namespace Challenges
 
         static Program()
         {
-            idToRunnerMapping = new Dictionary<int, Action<string[]>>();
-            idToRunnerMapping.Add(1, LeaderBoard.Run);
-            idToRunnerMapping.Add(2, HourGlass2DArrays.Run);
+            idToRunnerMapping = new Dictionary<int, Action<string[]>>
+                                    {
+                                        { 1, LeaderBoard.Run },
+                                        { 2, HourGlass2DArrays.Run },
+                                        { 3, DynamicArray.Run }
+                                    };
         }
 
         public static void Main(string[] args)
         {
             for (int i = 0; i < idToRunnerMapping.Count; i++)
             {
-                Console.WriteLine(i + 1  + ". - " + idToRunnerMapping[i + 1].Method.DeclaringType.Name);
+                Console.WriteLine(i + 1 + ". - " + idToRunnerMapping[i + 1].Method.DeclaringType.Name);
             }
 
             var input = Console.ReadLine();

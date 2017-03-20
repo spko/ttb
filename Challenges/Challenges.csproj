@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Challenges\DynamicArray.cs" />
     <Compile Include="Challenges\HourGlass2DArrays.cs" />
     <Compile Include="Challenges\LeaderBoard.cs" />
     <Compile Include="Program.cs" />
