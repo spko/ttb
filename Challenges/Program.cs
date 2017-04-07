@@ -21,7 +21,9 @@ namespace Challenges
                                         { 3, DynamicArray.Run },
                                         { 4, LeftRotation.Run },
                                         { 5, RightRotation.Run },
-                                        { 6, SparseArrays.Run }
+                                        { 6, SparseArrays.Run },
+                                        { 7, AlgorithmicCrush.Run },
+                                        { 8, Merge2Arrays.Run }
                                     };
         }
 
