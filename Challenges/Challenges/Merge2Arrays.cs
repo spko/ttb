@@ -183,7 +183,7 @@ namespace Challenges.Challenges
             int[] a = new int[0];
             int[] b = new int[0];
 
-            var result = Main(a, b);
+            var result = MergeWithArrays(a, b);
             AssertAreEqual(new int[0], result, "Empty array expected");
         }
 
@@ -192,13 +192,13 @@ namespace Challenges.Challenges
             int[] a = new int[] { 1 };
             int[] b = new int[] { 32 };
 
-            var result = Main(null, null);
+            var result = MergeWithArrays(null, null);
             AssertAreEqual(null, result, "Null array expected");
 
-            result = Main(a, null);
+            result = MergeWithArrays(a, null);
             AssertAreEqual(a, result, "A array expected");
 
-            result = Main(null, b);
+            result = MergeWithArrays(null, b);
             AssertAreEqual(b, result, "B array expected");
         }
 
@@ -208,14 +208,14 @@ namespace Challenges.Challenges
             int[] b = new int[] { 4, 32, 50 };
             int[] e = new[] { 1, 2, 4, 6, 32, 50 };
 
-            var result = Main(a, b);
+            var result = MergeWithArrays(a, b);
             AssertAreEqual(e, result, "Merged arrays not matching");
 
             a = new int[] { 6, 7, 9, 15 };
             b = new int[] { 1, 5, 7 };
             e = new[] { 1, 5, 6, 7, 9, 15 };
 
-            result = Main(a, b);
+            result = MergeWithArrays(a, b);
             AssertAreEqual(e, result, "Merged arrays not matching");
         }
 
