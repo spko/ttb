@@ -23,7 +23,9 @@ namespace Challenges
                                         { 5, RightRotation.Run },
                                         { 6, SparseArrays.Run },
                                         { 7, AlgorithmicCrush.Run },
-                                        { 8, Merge2Arrays.Run }
+                                        { 8, Merge2Arrays.Run },
+                                        { 9, RotatingRectangles.Run },
+                                        { 10, SortAnArray.Run }
                                     };
         }
 

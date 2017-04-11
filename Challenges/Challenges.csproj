@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asserts.cs" />
     <Compile Include="Challenges\AlgorithmicCrush.cs" />
     <Compile Include="Challenges\DynamicArray.cs" />
     <Compile Include="Challenges\HourGlass2DArrays.cs" />
@@ -51,9 +53,14 @@
     <Compile Include="Challenges\Merge2Arrays.cs" />
     <Compile Include="Challenges\Models\Node.cs" />
     <Compile Include="Challenges\RightRotation.cs" />
+    <Compile Include="Challenges\RotatingRectangles.cs" />
+    <Compile Include="Challenges\SortAnArray.cs" />
     <Compile Include="Challenges\SparseArrays.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
