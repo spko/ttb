@@ -24,8 +24,7 @@ namespace Challenges
                                         { 6, SparseArrays.Run },
                                         { 7, AlgorithmicCrush.Run },
                                         { 8, Merge2Arrays.Run },
-                                        { 9, LargestRectangle.Run },
-                                        { 10, SortAnArray.Run }
+                                        { 9, SortAnArray.Run }
                                     };
         }
 
