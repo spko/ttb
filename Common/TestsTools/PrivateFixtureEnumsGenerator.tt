@@ -1,0 +1,134 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\{PATH_TO_PROJECT}\bin\$(Configuration)\{PROJECT_NAME}.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<# AnalyzeDlls();#>
+<#+ private readonly ICollection<string> exclusions = new List<string> { "" }; #>
+<#+ private void AnalyzeDlls()
+{
+	var reflectedAssembly = Assembly.GetAssembly(typeof({FULL_TYPENAME_OF_A_CLASS_WITHIN_PROJECT}));
+	var typesToReflect = this.LoadTypesToReflect(reflectedAssembly);
+	if (!typesToReflect.Any()) {
+		return;
+	}
+
+	string fieldsTemplateDirectory = Path.GetDirectoryName(Host.TemplateFile) + @"/Generated/Fields";
+	this.PrepareDirectoryGenerationDirectory(fieldsTemplateDirectory);
+	foreach (var type in typesToReflect)
+	{
+		var fieldsInfos = this.LoadPrivateFieldsForType(type);
+		if (fieldsInfos.Count != 0)
+		{
+			string fileName = this.GenerateEnum(type.Name, "Fields", fieldsInfos);
+			this.SaveOutput(fieldsTemplateDirectory, fileName);
+		}
+	}
+
+	string methodsTemplateDirectory = Path.GetDirectoryName(Host.TemplateFile) + @"/Generated/Methods";
+	this.PrepareDirectoryGenerationDirectory(methodsTemplateDirectory);
+	foreach (var type in typesToReflect)
+	{
+		var methodsInfos = this.LoadPrivateMethodsForType(type);
+		if (methodsInfos.Count != 0)
+		{
+			string fileName = this.GenerateEnum(type.Name, "Methods", methodsInfos);
+			this.SaveOutput(methodsTemplateDirectory, fileName);
+		}
+	}
+}#>
+<#+ private IEnumerable<Type> LoadTypesToReflect(Assembly reflectedAssembly)
+{
+	var exportedTypes = reflectedAssembly.GetExportedTypes();
+	var consolidatedTypes = new List<Type>();
+	foreach (var exportedType in exportedTypes)
+	{
+		if (this.exclusions.Contains(exportedType.Name))
+		{
+			continue;
+		}
+		
+		consolidatedTypes.Add(exportedType);
+	}
+
+	return consolidatedTypes;
+}#>
+<#+ private ICollection<string> LoadPrivateFieldsForType(Type typeToInspect)
+{
+	var instanceNonPublicFields = typeToInspect.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+	var instanceFieldsInfos = this.PopulateCollection(instanceNonPublicFields);
+
+	var staticNonPublicFields = typeToInspect.GetFields(BindingFlags.NonPublic | BindingFlags.Static);
+	instanceFieldsInfos.AddRange(this.PopulateCollection(staticNonPublicFields));
+	
+	return instanceFieldsInfos;
+}#>
+<#+ private ICollection<string> LoadPrivateMethodsForType(Type typeToInspect)
+{
+	var instanceNonPublicMethods = typeToInspect.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+	var instanceMethodsInfos = this.PopulateCollection(instanceNonPublicMethods);
+
+	var staticNonPublicMethods = typeToInspect.GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
+	instanceMethodsInfos.AddRange(this.PopulateCollection(staticNonPublicMethods));
+	
+	return instanceMethodsInfos;
+}#>
+<#+ private string GenerateEnum(string className, string objectType, ICollection<string> privateObjects){
+	string enumName = className + "Private" + objectType;#>
+	internal enum <#= enumName#> {
+		<#= this.WriteEnums(privateObjects)#>}
+
+	<#+
+	return enumName;
+}#>
+<#+ private string WriteEnums(ICollection<string> privateObjects){
+	StringBuilder sb = new StringBuilder();
+	foreach(var objectName in privateObjects) {
+		sb.AppendLine(objectName + ",");}
+
+	return sb.ToString();
+}#>
+<#+ private List<string> PopulateCollection<T>(IEnumerable<T> members) where T : MemberInfo
+{
+	var result = new List<string>();
+	if (!members.Any())
+	{
+		return result;
+	}
+
+	foreach (var fieldInfo in members)
+	{
+		if (fieldInfo.Name.Contains("__")) {
+			continue;
+		}
+		result.Add(fieldInfo.Name);
+	}
+	
+	return result;
+}#>
+<#+ private void SaveOutput(string path, string outputFileName)
+{
+	string outputFilePath = Path.Combine(path, outputFileName + ".cs");
+	File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString());
+	this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+}#>
+<#+ private void PrepareDirectoryGenerationDirectory(string path) {
+	if (!Directory.Exists(path)) {
+		Directory.CreateDirectory(path);
+	} else {
+		DirectoryInfo di = new DirectoryInfo(path);
+		foreach (FileInfo file in di.GetFiles())
+		{
+			file.Delete(); 
+		}
+		foreach (DirectoryInfo dir in di.GetDirectories())
+		{
+			dir.Delete(true); 
+		}
+	}
+}#>

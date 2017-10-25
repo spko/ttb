@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Spo.TestsTools</id>
+    <title>SPO.TestTools</title>
+    <version>0.1.0</version>
+    <authors>Serguei PETCHENKO</authors>
+    <owners>Serguei PETCHENKO</owners>
+    <licenseUrl>http://www.serguei-petchenko.com/</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Tools library for UTs. Contains all wrappers to invoke private objects</description>
+    <releaseNotes>Initial release</releaseNotes>
+  </metadata>
+</package>

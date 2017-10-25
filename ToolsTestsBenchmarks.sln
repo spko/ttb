@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortCommunication", "DebugAndTests\UsbCommunication\SerialPortCommunication.csproj", "{882F3AD5-02F3-4950-BAA3-6C348691753A}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenges", "Challenges\Challenges.csproj", "{A9BC24C3-A6E8-4ED0-B59E-398B8927C505}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingRulesExample", "DebugAndTests\CodingRulesExample\CodingRulesExample.csproj", "{E949D29C-7052-4532-8B2D-213EFEFC6907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsTools", "Common\TestsTools\TestsTools.csproj", "{599BE561-0705-4315-8031-A48511E403A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E949D29C-7052-4532-8B2D-213EFEFC6907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E949D29C-7052-4532-8B2D-213EFEFC6907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E949D29C-7052-4532-8B2D-213EFEFC6907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599BE561-0705-4315-8031-A48511E403A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599BE561-0705-4315-8031-A48511E403A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599BE561-0705-4315-8031-A48511E403A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599BE561-0705-4315-8031-A48511E403A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,6 @@ Global
 		{9209EF3E-07D2-4B68-9880-D798557317A8} = {FF8CAD48-E2E6-4A7C-AC72-E36F4E8F7D8D}
 		{A9BC24C3-A6E8-4ED0-B59E-398B8927C505} = {6B929804-72C2-4108-ADAB-45B98B0AA85A}
 		{E949D29C-7052-4532-8B2D-213EFEFC6907} = {4496BEA4-5FB9-4C0D-A528-119A4FA4D2A7}
+		{599BE561-0705-4315-8031-A48511E403A0} = {FF8CAD48-E2E6-4A7C-AC72-E36F4E8F7D8D}
 	EndGlobalSection
 EndGlobal
